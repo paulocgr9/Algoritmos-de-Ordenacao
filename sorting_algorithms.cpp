@@ -28,8 +28,8 @@ void swapValues(Node*, Node*);
 void bubbleSort(Node**, int);
 void optimizedBubbleSort(Node**, int);
 void selectionSort(Node**);
-void optimizedSelectionSort(Node **);
-void freeList(Node **);
+void optimizedSelectionSort(Node**);
+void freeList(Node**);
 
 int main()
 {
@@ -228,6 +228,17 @@ void swapValues(Node* Node1, Node* Node2)
 
 void bubbleSort(Node** head, int iLenght)
 {
+    if (*head == nullptr)
+    {
+        cout << "Impossível ordenar: lista vazia." << endl;
+        return;
+    }
+    if ((*head)->ptrNext == nullptr)
+    {
+        cout << "Impossível ordenar: lista de um elemento." << endl;
+        return;
+    }
+
     for (int iOuterLoop = 0; iOuterLoop < iLenght-1; iOuterLoop++)
     {
         Node* current = *head;
@@ -245,6 +256,17 @@ void bubbleSort(Node** head, int iLenght)
 
 void optimizedBubbleSort(Node** head, int iLenght)
 {
+    if (*head == nullptr)
+    {
+        cout << "Impossível ordenar: lista vazia." << endl;
+        return;
+    }
+    if ((*head)->ptrNext == nullptr)
+    {
+        cout << "Impossível ordenar: lista de um elemento." << endl;
+        return;
+    }
+
     bool bUnordered = false;
     for (int iOuterLoop = 0; iOuterLoop < iLenght-1; iOuterLoop++)
     {
@@ -267,6 +289,17 @@ void optimizedBubbleSort(Node** head, int iLenght)
 
 void selectionSort(Node** head)
 {
+    if (*head == nullptr)
+    {
+        cout << "Impossível ordenar: lista vazia." << endl;
+        return;
+    }
+    if ((*head)->ptrNext == nullptr)
+    {
+        cout << "Impossível ordenar: lista de um elemento." << endl;
+        return;
+    }
+
     Node* currentOuter = *head;
     while(currentOuter != nullptr)
     {
@@ -285,6 +318,17 @@ void selectionSort(Node** head)
 
 void optimizedSelectionSort(Node** head)
 {
+    if (*head == nullptr)
+    {
+        cout << "Impossível ordenar: lista vazia." << endl;
+        return;
+    }
+    if ((*head)->ptrNext == nullptr)
+    {
+        cout << "Impossível ordenar: lista de um elemento." << endl;
+        return;
+    }
+
     int minValue = 0;
     Node* ptrSwap = 0;
 
@@ -309,7 +353,19 @@ void optimizedSelectionSort(Node** head)
     }
 }
 
-void freeList(Node** head){
+void freeList(Node** head)
+{
+    if (*head == nullptr)
+    {
+        cout << "Lista vazia." << endl;
+        return;
+    }
+    if ((*head)->ptrNext == nullptr)
+    {
+        cout << "Lista vazia." << endl;
+        return;
+    }
+
     Node* current = *head;
     current = current->ptrNext;
     while(current->ptrNext != nullptr){
