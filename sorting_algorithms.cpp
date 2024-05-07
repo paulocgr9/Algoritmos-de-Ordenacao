@@ -27,6 +27,8 @@ void insertEnd(Node**, int);
 void swapValues(Node*, Node*);
 void bubbleSort(Node**, int);
 void optimizedBubbleSort(Node**, int);
+void selectionSort(Node**);
+void optimizedSelectionSort(Node **);
 void freeList(Node **);
 
 int main()
@@ -36,6 +38,8 @@ int main()
 
     long long int temposBubbleSort[iNumeroSeeds] = {};
     long long int temposOptimizedBubbleSort[iNumeroSeeds] = {};
+    long long int temposSelectionSort[iNumeroSeeds] = {};
+    long long int temposOptimizedSelectionSort[iNumeroSeeds] = {};
 
     for (int iIndex = 0; iIndex < iNumeroSeeds; iIndex++){
         cout << "FAZENDO PARA A SEED " << iIndex << endl << "==" << endl;
@@ -91,13 +95,65 @@ int main()
         cout << "========================================" << endl;
         temposOptimizedBubbleSort[iIndex] = timeDuration.count();
         freeList(&head2);
-    
+
+        Node* head3 = nullptr;
+
+        for (int i = 0; i < iNumeroElementos; i++)
+        {
+            insertEnd(&head3, rand() % iNumeroElementos);
+        }
+        //cout << "ANTES DO SELECTION SORT" << endl;
+        //displayList(head3);
+
+        //cout << "DEPOIS DO SELECTION SORT" << endl;
+        cout << "DEPOIS DO SELECTION SORT" << endl;
+        timeStart = high_resolution_clock::now();
+        selectionSort(&head3);
+        timeStop = high_resolution_clock::now();
+
+        //cout << "Array ordenado: ";
+        //displayList(head3);
+
+        timeDuration = duration_cast<nanoseconds>(timeStop - timeStart);
+        cout << "Tempo utilizado: " << timeDuration.count() << " nanosegundos." << endl;
+        cout << "========================================" << endl;
+        temposSelectionSort[iIndex] = timeDuration.count();
+        freeList(&head3);
+
+        Node* head4 = nullptr;
+
+        for (int i = 0; i < iNumeroElementos; i++)
+        {
+            insertEnd(&head4, rand() % iNumeroElementos);
+        }
+        //cout << "ANTES DO OPTIMIZED SELECTION SORT" << endl;
+        //displayList(head4);
+
+        //cout << "DEPOIS DO OPTIMIZED SELECTION SORT" << endl;
+        cout << "DEPOIS DO OPTIMIZED SELECTION SORT" << endl;
+        timeStart = high_resolution_clock::now();
+        optimizedSelectionSort(&head4);
+        timeStop = high_resolution_clock::now();
+
+        //cout << "Array ordenado: ";
+        //displayList(head4);
+
+        timeDuration = duration_cast<nanoseconds>(timeStop - timeStart);
+        cout << "Tempo utilizado: " << timeDuration.count() << " nanosegundos." << endl;
+        cout << "========================================" << endl;
+        temposOptimizedSelectionSort[iIndex] = timeDuration.count();
+        freeList(&head4);
+
     }
 
     cout << "TEMPOS BUBBLE SORT:" << endl;
     printArray(temposBubbleSort, iNumeroSeeds);
     cout << "TEMPOS OPTIMIZED BUBBLE SORT:" << endl;
     printArray(temposOptimizedBubbleSort, iNumeroSeeds);
+    cout << "TEMPOS SELECTION SORT:" << endl;
+    printArray(temposSelectionSort, iNumeroSeeds);
+    cout << "TEMPOS OPTIMIZED SELECTION SORT:" << endl;
+    printArray(temposOptimizedSelectionSort, iNumeroSeeds);
     return 0;
 
 }
@@ -206,6 +262,50 @@ void optimizedBubbleSort(Node** head, int iLenght)
         }
         //while (current->ptrNext != nullptr);
         if (bUnordered == false) break;
+    }
+}
+
+void selectionSort(Node** head)
+{
+    Node* currentOuter = *head;
+    while(currentOuter != nullptr)
+    {
+        Node* currentInner = currentOuter->ptrNext;
+        while(currentInner != nullptr)
+        {
+            if (currentOuter->iPayload > currentInner->iPayload)
+            {
+                swapValues(currentOuter, currentInner);
+            }
+        currentInner = currentInner->ptrNext;
+        }
+    currentOuter = currentOuter->ptrNext;
+    }
+}
+
+void optimizedSelectionSort(Node** head)
+{
+    int minValue = 0;
+    Node* ptrSwap = 0;
+
+    Node* currentOuter = *head;
+    while(currentOuter != nullptr)
+    {
+        minValue = currentOuter->iPayload;
+        ptrSwap = currentOuter;
+
+        Node* currentInner = currentOuter->ptrNext;
+        while(currentInner != nullptr)
+        {
+            if (minValue > currentInner->iPayload)
+            {
+                minValue = currentInner->iPayload;
+                ptrSwap = currentInner;
+            }
+            currentInner = currentInner->ptrNext;
+        }
+        swapValues(currentOuter, ptrSwap);
+        currentOuter = currentOuter->ptrNext;
     }
 }
 
